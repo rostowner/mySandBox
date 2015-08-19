@@ -1,6 +1,6 @@
 "use strict";
 
-var events = function() {
+var events = {
 	types = {
 		any: []
 	},
