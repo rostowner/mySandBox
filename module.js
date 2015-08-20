@@ -1,16 +1,15 @@
 "use strict";
 
-var Person = (function() {
+var Person = function(obj) {
 	var _sexEnum = {
 			male: 1,
 			female: 0
-		};
+		},
+		_name = obj.name || "",
+		_age = obj.age || 25,
+		_sex = obj.sex || _sexEnum.male;
 
-		return function (obj) {
-			var _name = obj.name || _name,
-				_age = obj.age || _age,
-				_sex = obj.sex || _sex;
-			return {
+		return {
 				setName: function() {
 
 				},
@@ -32,11 +31,8 @@ var Person = (function() {
 				say: function () {
 					console.log("Hi "+_name);
 				}
-			};
 		};
-
-
-}());
+};
 
 var rost = new Person({name: "Rost", age: 27, sex: 1});
 var ivan = new Person({name: "Ivan", age: 25, sex: 1});
