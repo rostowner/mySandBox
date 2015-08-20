@@ -1,10 +1,17 @@
 "use strict";
 
+var enums = {
+	sex: {
+		male: 1,
+		female: 0
+	},
+	getEnum: function (name) {
+		return this[name];
+	}
+};
+
 var Person = function(obj) {
-	var sexEnum = {
-			male: 1,
-			female: 0
-		},
+	var sexEnum = enums.getEnum("sex"),
 		_name = obj.name || "",
 		_age = obj.age || 25,
 		_sex = obj.sex || sexEnum.male;
@@ -37,10 +44,7 @@ var Person = function(obj) {
 var Humans = (function(){
 	
 	var self = {},
-		sexEnum = {
-				male: 1,
-				female: 0
-			},
+		sexEnum = enums.getEnum("sex"),
 		_list = [],
 		_addHuman = function (obj) {
 			_list.push(new Person({name: obj.name, age: obj.age, sex: obj.sex}));
@@ -67,4 +71,6 @@ var Humans = (function(){
 	return self;
 }());
 
+Humans.getAllHumans();
+Humans.burnNewHuman({name: "Olya", age: 24, sex: enums.sex.female});
 Humans.getAllHumans();
