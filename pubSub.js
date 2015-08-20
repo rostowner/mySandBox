@@ -15,7 +15,7 @@ var events = (function() {
 		},
 		off: function (type, fn) {
 			if (!events[type]) {
-				return;
+				return this;
 			}
 
 			if (events[type].indexOf(fn)) {
@@ -27,7 +27,7 @@ var events = (function() {
 		},
 		trigger: function (type, data) {
 			if (!events[type]) { 
-				return; 
+				return this; 
 			}
 			events[type].forEach(function (cb) {
 				cb(data);
@@ -74,10 +74,9 @@ var Log = function () {
 var ivan = new Person("Ivan");
 var list = new Log();
 
-events.off("rec", list.rec);
-
-events.on("rec", list.rec);
-events.on("see", list.see);
+events.off("rec", list.rec)
+	.on("rec", list.rec)
+	.on("see", list.see);
 
 
 list.rec("aboo1");
