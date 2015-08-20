@@ -1,20 +1,24 @@
 "use strict";
 
-var enums = {
-	sex: {
-		male: 1,
-		female: 0
-	},
-	getEnum: function (name) {
-		return this[name];
-	}
-};
+var enums = (function(){
+	var obj = {
+			sex: {
+				male: 1,
+				female: 0
+			}
+		};
+	return {
+		getEnum: function (name) {
+			return obj[name];
+		}
+	};
+}());
 
 var Person = function(obj) {
 	var sexEnum = enums.getEnum("sex"),
 		_name = obj.name || "",
 		_age = obj.age || 25,
-		_sex = obj.sex || sexEnum.male;
+		_sex = (obj.sex===0)? obj.sex: sexEnum.male;
 
 		return {
 				setName: function() {
@@ -72,5 +76,5 @@ var Humans = (function(){
 }());
 
 Humans.getAllHumans();
-Humans.burnNewHuman({name: "Olya", age: 24, sex: enums.sex.female});
+Humans.burnNewHuman({name: "Sara", age: 24, sex: enums.getEnum("sex").female});
 Humans.getAllHumans();
