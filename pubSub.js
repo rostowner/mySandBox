@@ -4,16 +4,15 @@ var events = (function() {
 	var events = {
 		/*string: []*/
 	};
-	return {
-		on: function (type, fn) {
+	function on (type, fn) {
 			this.type = type || "any";
 			if (!events[type]) {
 				events[type] = [];
 			}
 			events[type].push(fn);
 			return this;
-		},
-		off: function (type, fn) {
+		};
+	function off (type, fn) {
 			if (!events[type]) {
 				return this;
 			}
@@ -24,8 +23,8 @@ var events = (function() {
 			delete events[type];
 
 			return this;
-		},
-		trigger: function (type, data) {
+		};
+	function trigger (type, data) {
 			if (!events[type]) { 
 				return this; 
 			}
@@ -33,7 +32,12 @@ var events = (function() {
 				cb(data);
 			});
 			return this;
-		}
+		};
+
+	return {
+		on: on,
+		off: off,
+		trigger: trigger
 	}
 }());
 
