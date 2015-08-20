@@ -1,82 +1,83 @@
 "use strict";
 
 var events = (function() {
-	var types = {
-		any: []
+	var events = {
+		/*string: []*/
 	};
 	return {
-		on: function (type, fn, context) {
+		on: function (type, fn) {
 			this.type = type || "any";
-			fn = (typeof fn === "function")? fn: context[fn];
-			if (typeof types[type] === "undefined") {
-				types[type] = [];
+			if (!events[type]) {
+				events[type] = [];
 			}
-			types[type].push({fn: fn, context: context || this});
-			//return this;
+			events[type].push(fn);
+			return this;
 		},
-		off: function (type, fn, context) {
-			this.proceedAction("off", type, fn, context);
-			// return this;
-		},
-		trigger: function (type, fn) {
-			this.proceedAction("on", type, fn);
-			// return this;
-		},
-		proceedAction: function (action, type, args, context) {
-			var pubType = type || "any",
-				inTypes = types[pubType],
-				i,
-				max = inTypes? inTypes.length: 0;
+		off: function (type, fn) {
+			if (!events[type]) {
+				return;
+			}
 
-				for (i = 0; i < max; i += 1) {
-					if (action === "on") {
-						inTypes[i].fn.call(inTypes[i].context, args);
-					} else {
-						if (inTypes[i].fn === args
-							&& inTypes[i].context === context) {
-							inTypes.splice(i, 1);
-						}
-					}
-				}
+			if (events[type].indexOf(fn)) {
+				events[type].splice(indexOf(fn), 1);
+			}
+			delete events[type];
+
+			return this;
+		},
+		trigger: function (type, data) {
+			if (!events[type]) { 
+				return; 
+			}
+			events[type].forEach(function (cb) {
+				cb(data);
+			});
+			return this;
 		}
 	}
 }());
 
 var Person = function (name) {
-	this.name = name || "Ogo";
-};
-Person.prototype = {
-	constructor: Person,
-	congrat: function (str) {
+	var name = name || "Ogo";
+
+	function congrat (str) {
 		str = str || "Hi";
-		console.log(str + " " + this.name);
+		console.log(str + " " + name);
 		events.trigger("rec", function() {
 			console.log("YES!!!");
 		});
 	}
+
+	return {
+		congrat: congrat
+	}
 };
 
 var Log = function () {
-	this.eventList = [];
-};
-Log.prototype = {
-	constructor: Log,
-	rec: function (event) {
+	var eventList = [];
+	function rec (event) {
 		if (!event) {
 			return;
 		}
-		this.eventList.push(event);
-	},
-	see: function () {
-		console.log([].concat(this.eventList.map(function(x){return x;})));
+		eventList.push(event);
+	};
+	function see () {
+		console.log([].concat(eventList.map(function(x){return x;})));
+	};
+
+	return {
+		rec: rec,
+		see: see
 	}
 };
 
 var ivan = new Person("Ivan");
 var list = new Log();
 
-events.on("rec", list.rec, list);
-events.on("see", list.see, list);
+events.off("rec", list.rec);
+
+events.on("rec", list.rec);
+events.on("see", list.see);
 
 
 list.rec("aboo1");
@@ -85,6 +86,7 @@ list.rec("aboo3");
 
 events.trigger("rec", "Oppa1");
 events.trigger("rec", "Oppa2");
+
 events.trigger("rec", "Oppa3");
 events.trigger("rec", 1);
 events.trigger("see");
