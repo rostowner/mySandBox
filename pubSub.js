@@ -18,7 +18,7 @@ var events = (function() {
 				return this;
 			}
 
-			if (events[type].indexOf(fn)) {
+			if (events[type].indexOf(fn) !== -1) {
 				events[type].splice(indexOf(fn), 1);
 			}
 			delete events[type];
