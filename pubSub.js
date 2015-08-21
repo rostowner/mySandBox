@@ -41,7 +41,7 @@ var events = (function() {
 	}
 }());
 
-// v1 module approach
+/*// v1 module approach
 var Person = function (name) {
 	var name = name || "Ogo";
 
@@ -114,7 +114,4 @@ events.trigger("rec", "Oppa2");
 
 events.trigger("rec", "Oppa3");
 events.trigger("rec", 1);
-events.trigger("see");
-
-
-
+events.trigger("see");*/
