@@ -11,7 +11,7 @@ var events = (function() {
 			}
 			events[type].push(fn);
 			return this;
-		};
+		}
 	function off (type, fn) {
 			if (!events[type]) {
 				return this;
@@ -23,7 +23,7 @@ var events = (function() {
 			delete events[type];
 
 			return this;
-		};
+		}
 	function trigger (type, data) {
 			if (!events[type]) { 
 				return this; 
@@ -32,7 +32,7 @@ var events = (function() {
 				cb(data);
 			});
 			return this;
-		};
+		}
 
 	return {
 		on: on,
@@ -41,6 +41,7 @@ var events = (function() {
 	}
 }());
 
+// v1 module approach
 var Person = function (name) {
 	var name = name || "Ogo";
 
@@ -57,6 +58,22 @@ var Person = function (name) {
 	}
 };
 
+// v2 proto approach
+var Person2 = function (name) {
+    this.name = name || "Ogo";
+
+};
+Person2.prototype = {
+    constructor: Person2,
+    congrat: function (str) {
+        str = str || "Hi";
+        console.log(str + " " + this.name);
+        events.trigger("rec", function() {
+            console.log("YES!!!");
+        });
+    }
+};
+
 var Log = function () {
 	var eventList = [];
 	function rec (event) {
@@ -64,10 +81,10 @@ var Log = function () {
 			return;
 		}
 		eventList.push(event);
-	};
+	}
 	function see () {
 		console.log([].concat(eventList.map(function(x){return x;})));
-	};
+	}
 
 	return {
 		rec: rec,
@@ -77,6 +94,11 @@ var Log = function () {
 
 var ivan = new Person("Ivan");
 var list = new Log();
+
+
+var pasha = new Person2("Pasha");
+
+pasha.congrat();
 
 events.off("rec", list.rec)
 	.on("rec", list.rec)
