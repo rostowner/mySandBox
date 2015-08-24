@@ -7,26 +7,26 @@ var expect = require("chai").expect,
     assert = require("assert");
 
 var memo = function() {
-    var key = JSON.stringify(Array.prototype.slice.call(arguments));
-    if (!memo.cache[key]) {
-        var res;
-        memo.cache[key] = {};
 
-        res = JSON.stringify(Array.prototype.slice.call(arguments));
+    var cache = {};
+    return function(fn){
+        var key = toString(Array.prototype.join.apply(arguments));
+        if (!cache[key]) {
+            cache[key] = {};
+            cache[key] = fn; // todo: implement check if fn is FUNCTION
+        }
 
-        memo.cache[key] = res;
-    }
-
-    return memo.cache[key];
+        return cache[key];
+    };
 };
 
-memo.cache = {};
+var mem = memo();
 
 describe("Memo", function() {
     it("should be exist", function() {
-        expect(memo).to.be.a("function");
+        expect(mem).to.be.a("function");
     })
     it("should return 1", function() {
-        assert.equal(memo(1), "[1]");
+        assert.equal(mem(1), 1);
     })
 });
