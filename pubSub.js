@@ -41,6 +41,13 @@ var events = (function() {
 	}
 }());
 
+var expect = require("chai").expect;
+describe("pub/sub", function() {
+    it("exist", function() {
+        expect(true).to.be.true;
+    });
+});
+
 /*// v1 module approach
 var Person = function (name) {
 	var name = name || "Ogo";

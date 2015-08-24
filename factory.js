@@ -2,8 +2,9 @@
  * Created by rost on 21.08.15.
  */
 // factory
-(function() {
+
     "use strict";
+
 
     var HumanMaker = function() {
         this._name = "";
@@ -18,9 +19,15 @@
         setAge: function (_age) {
             this._age = _age || 0;
         },
+        getAge: function () {
+            return this._age;
+        },
+        getType: function () {
+            return this._type;
+        },
         introduceMe: function () {
-            var str = "Hello! My _name is " + this._name + ", I'm " + this._age + " y.o., I'm " + this._type + ", and have " + this._height + "sm";
-            console.log(str);
+            var str = "Hello! My name is " + this._name + ", I'm " + this._age + " y.o., I'm " + this._type + ", and have " + this._height + "sm";
+            return str;
         }
     };
 
@@ -74,10 +81,28 @@
         bill = HumanMaker.factory("Boy", {name: "Bill", age: 7}),
         elza = HumanMaker.factory("Girl", {name: "Elza", age: 5});
 
-    ivan.introduceMe();
-    olya.introduceMe();
-    bill.introduceMe();
-    elza.introduceMe();
+var assert = require("assert");
 
-
-}());
+describe('Factory', function() {
+    it('Ivan should introduce', function () {
+        assert.equal("Hello! My name is Ivan, I'm 27 y.o., I'm man, and have 175sm", ivan.introduceMe());
+    });
+    it('Olya should be 25 y.o.', function () {
+        assert.equal(25, olya.getAge());
+    });
+    it('Ivan should be Man', function () {
+        assert.equal("man", ivan.getType());
+    });
+    it('Olya should be Woman', function () {
+        assert.equal("woman", olya.getType());
+    });
+    it('Bill should be Boy', function () {
+        assert.equal("boy", bill.getType());
+    });
+    it('Elza should be Girls', function () {
+        assert.equal("girl", elza.getType());
+    });
+    it('ivan should not be equal HumanMaker', function() {
+        assert.notEqual(ivan, HumanMaker);
+    });
+});

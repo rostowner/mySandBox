@@ -2,7 +2,7 @@
 
 "use strict";
 (function () {
-	var input = document.getElementById("input"),
+	/*var input = document.getElementById("input"),
 		proxy = (function () {
 			function show (e) {
 				var val = e.target.value;
@@ -41,5 +41,7 @@
 	viewEvents.on(input, "keyup", function (e) {
 		proxy.show(e);
 	});
+
+    */
 
 }());
