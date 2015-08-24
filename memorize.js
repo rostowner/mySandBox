@@ -6,27 +6,23 @@ var expect = require("chai").expect,
     should = require("chai").should,
     assert = require("assert");
 
-var memo = function() {
-
+var add = (function() {
     var cache = {};
-    return function(fn){
-        var key = toString(Array.prototype.join.apply(arguments));
-        if (!cache[key]) {
-            cache[key] = {};
-            cache[key] = fn; // todo: implement check if fn is FUNCTION
-        }
 
+    return function(a, b) {
+        var key = toString(a) + toString(b);
+        if (!cache[key]) {
+            cache[key] = a + b;
+        }
         return cache[key];
     };
-};
+}());
 
-var mem = memo();
-
-describe("Memo", function() {
+describe("Cache", function() {
     it("should be exist", function() {
-        expect(mem).to.be.a("function");
+        expect(add).to.be.a("function");
     })
-    it("should return 1", function() {
-        assert.equal(mem(1), 1);
+    it("should return 3", function() {
+        assert.equal(add(1,2), 3);
     })
 });
