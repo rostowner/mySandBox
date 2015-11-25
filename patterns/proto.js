@@ -21,4 +21,4 @@ ChildClass.prototype.constructor = ChildClass;
 
 var ivan = new ParentClass("Ivan");
 
-ivan.say();
+//ivan.say();
