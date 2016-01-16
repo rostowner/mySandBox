@@ -41,14 +41,14 @@ var events = (function() {
 	}
 }());
 
-var expect = require("chai").expect;
-describe("pub/sub", function() {
-    it("exist", function() {
-        expect(true).to.be.true;
-    });
-});
+// var expect = require("chai").expect;
+// describe("pub/sub", function() {
+//     it("exist", function() {
+//         expect(true).to.be.true;
+//     });
+// });
 
-/*// v1 module approach
+// v1 module approach
 var Person = function (name) {
 	var name = name || "Ogo";
 
@@ -121,4 +121,8 @@ events.trigger("rec", "Oppa2");
 
 events.trigger("rec", "Oppa3");
 events.trigger("rec", 1);
+<<<<<<< Updated upstream
 events.trigger("see");*/
+=======
+events.trigger("see");
+>>>>>>> Stashed changes
