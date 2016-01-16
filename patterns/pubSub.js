@@ -2,7 +2,7 @@
 
 var events = (function() {
 	var events = {
-		/*string: []*/
+		type: []
 	};
 	function on (type, fn) {
 			this.type = type || "any";
