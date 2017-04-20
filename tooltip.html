@@ -1,0 +1,82 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      height: 2000px;
+      /* подсказка должна работать независимо от прокрутки */
+    }
+    .tooltip {
+      position: absolute;
+      max-width: 200px;
+      height: 30px;
+      background-color: #fff;
+      border: 1px solid red;
+    }
+    /* ваши стили */
+  </style>
+</head>
+
+<body>
+
+  <p>ЛяЛяЛя ЛяЛяЛя ЛяЛяЛя ЛяЛяЛя ЛяЛяЛя ЛяЛяЛя ЛяЛяЛя ЛяЛяЛя ЛяЛяЛя</p>
+  <p>ЛяЛяЛя ЛяЛяЛя ЛяЛяЛя ЛяЛяЛя ЛяЛяЛя ЛяЛяЛя ЛяЛяЛя ЛяЛяЛя ЛяЛяЛя</p>
+
+  <button data-tooltip="подсказка длиннее, чем элемент">Короткая кнопка</button>
+  <button data-tooltip="HTML<br>подсказка">Ещё кнопка</button>
+
+  <p>Прокрутите страницу, чтобы ссылки были вверху и проверьте, правильно ли показываются подсказки.</p>
+
+
+  <script>
+    'use strict';
+    
+    class ToolTip {
+      constructor(options) {
+        this._el = options.el;
+        this._hoveredElem;
+        
+        this._el.addEventListener('mouseover', this._onElementMosueOver.bind(this));
+        this._el.addEventListener('mouseout', this._onElementMouseOut.bind(this));
+      }
+      
+      _onElementMosueOver(e) {
+        this._hoveredElem = e.target.closest('[data-tooltip]');
+        
+        if (!this._hoveredElem) {
+          return;
+        }
+        
+        let text = this._hoveredElem.dataset.tooltip;
+        
+        let elem = document.createElement('div');
+        elem.className = 'tooltip';
+        elem.innerHTML = text;
+        
+        let hoveredCoords = this._hoveredElem.getBoundingClientRect();
+        
+        elem.style.top = hoveredCoords.top - hoveredCoords.height - 15 + 'px';
+        elem.style.left = hoveredCoords.left + 'px';
+        
+        document.body.appendChild(elem);
+      };
+      
+      _onElementMouseOut(e) {
+        if (e.target !== this._hoveredElem) {
+          return;
+        }
+
+        let elToRemove = document.body.querySelector('.tooltip');
+
+        elToRemove.parentNode.removeChild(elToRemove);
+      };
+    };
+    
+    let tollTip = new ToolTip({el: document.body});
+  </script>
+
+</body>
+
+</html>
